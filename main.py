@@ -51,7 +51,7 @@ while True:
     if snake.colliderect(food):
         collisions += 1
         print(f"Collisions: {collisions}")
-       
+        food = Rect(randint(10,290),randint(10,290), 10, 10)
 
     screen.fill("black")  # Fill the display with a solid color
 
