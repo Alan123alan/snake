@@ -2,6 +2,7 @@
 import pygame
 from pygame import Rect
 from pygame import Surface
+from random import randint
 
 def move_down(screen:Surface,snake:Rect, ):
     pygame.draw.rect(screen, "blue", snake)
@@ -15,6 +16,7 @@ x_coordinate = 0
 y_coordinate = 0
 snake = Rect(x_coordinate,y_coordinate,10,10)
 food = Rect(50, 50, 10, 10)
+collisions = 0
 while True:
     # Process player inputs.
     for event in pygame.event.get():
@@ -45,6 +47,11 @@ while True:
         snake = snake.move(-1,y_coordinate)
     if pressed_key[pygame.K_RIGHT]:
         snake = snake.move(1,y_coordinate)
+
+    if snake.colliderect(food):
+        collisions += 1
+        print(f"Collisions: {collisions}")
+       
 
     screen.fill("black")  # Fill the display with a solid color
 
