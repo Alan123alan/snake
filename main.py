@@ -30,6 +30,7 @@ UP = (0,-10)
 DOWN = (0,10)
 LEFT = (-10,0)
 RIGHT = (10,0)
+START = (0,0)
 
 screen = pygame.display.set_mode((SURFACE_WIDTH,SURFACE_HEIGHT))
 clock = pygame.time.Clock()
@@ -40,7 +41,7 @@ snake = [Rect(SURFACE_CENTER_HEIGHT-SNAKE_HEIGHT,SURFACE_CENTER_WIDTH-SNAKE_WIDT
 (food_x,food_y) = get_spawn_food_point(SPAWN_AREA_L_LIMIT,SPAWN_AREA_U_LIMIT)
 food = Rect(food_x, food_y, FOOD_WIDTH, FOOD_HEIGHT)
 collisions = 0
-direction = RIGHT
+direction = START
 while True:
     # Process player inputs.
     for event in pygame.event.get():
@@ -49,33 +50,41 @@ while True:
             raise SystemExit
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                if snake[0].top < SPAWN_AREA_U_LIMIT:
-                    direction = DOWN
-                    snake = [snake[0].move(0, 10),*snake]
-                    snake.pop()
+                #if snake[0].top < SPAWN_AREA_U_LIMIT:
+                direction = DOWN
+                    # snake = [snake[0].move(0, 10),*snake]
+                    # snake.pop()
             if event.key == pygame.K_UP:
-                if snake[0].top > SPAWN_AREA_L_LIMIT:
-                    direction = UP
-                    snake = [snake[0].move(0, -10),*snake]
-                    snake.pop()
+                #if snake[0].top > SPAWN_AREA_L_LIMIT:
+                direction = UP
+                    # snake = [snake[0].move(0, -10),*snake]
+                    # snake.pop()
             if event.key == pygame.K_LEFT:
-                if snake[0].left > SPAWN_AREA_L_LIMIT:
-                    direction = LEFT
-                    snake = [snake[0].move(-10,0),*snake]
-                    snake.pop()
+                #if snake[0].left > SPAWN_AREA_L_LIMIT:
+                direction = LEFT
+                    # snake = [snake[0].move(-10,0),*snake]
+                    # snake.pop()
             if event.key == pygame.K_RIGHT:
-                if snake[0].left < SPAWN_AREA_U_LIMIT:
-                    direction = RIGHT
-                    snake = [snake[0].move(10,0),*snake]
-                    snake.pop()
+                #if snake[0].left < SPAWN_AREA_U_LIMIT:
+                direction = RIGHT
+                    #snake = [snake[0].move(10,0),*snake]
+                    #snake.pop()
     # Do logical updates here.
     # ...
+    #print(x_offset,y_offset)
+    #print(snake[0].left,snake[0].top)
+    tail = snake[-1]
+    (x_offset,y_offset) = direction
+    if SPAWN_AREA_L_LIMIT < snake[0].left < SPAWN_AREA_U_LIMIT and SPAWN_AREA_L_LIMIT < snake[0].top < SPAWN_AREA_U_LIMIT:
+        snake = [snake[0].move(x_offset,y_offset),*snake]
+        snake.pop()
     if snake[0].colliderect(food):
         collisions += 1
         print(f"Collisions: {collisions}")
         (food_x,food_y) = get_spawn_food_point(SPAWN_AREA_L_LIMIT,SPAWN_AREA_U_LIMIT)
         food = Rect(food_x, food_y, FOOD_WIDTH, FOOD_HEIGHT)
-        snake.append(Rect(snake[0].left-10, snake[0].top-10, SNAKE_WIDTH, SNAKE_HEIGHT))
+        snake.append(tail)
+        #snake.append(Rect(snake[0].left-10, snake[0].top-10, SNAKE_WIDTH, SNAKE_HEIGHT))
 
     screen.fill("black")  # Fill the display with a solid color
 
@@ -88,4 +97,4 @@ while True:
         pygame.draw.rect(screen,"blue", pixel)
     pygame.draw.rect(screen, "red", food)
     pygame.display.flip()  # Refresh on-screen display
-    clock.tick(60)         # wait until next frame (at 60 FPS)
+    clock.tick(10)         # wait until next frame (at 60 FPS)
