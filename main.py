@@ -19,12 +19,28 @@ def generate_upper_wall():
         upper_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
     return upper_wall
 
+
+def generate_lower_wall():
+    lower_wall = []
+    TOP = 480
+    for x in range(10,481,10): 
+        lower_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    return lower_wall
+
+
 def generate_left_wall():
     left_wall = []
     LEFT = 10
     for y in range(10,481,10): 
         left_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
     return left_wall 
+
+def generate_right_wall():
+    right_wall = []
+    LEFT = 480
+    for y in range(10,481,10): 
+        right_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    return right_wall 
 
 
 
@@ -94,7 +110,7 @@ while True:
     #print(snake[0].left,snake[0].top)
     tail = snake[-1]
     (x_offset,y_offset) = direction
-    if SPAWN_AREA_L_LIMIT < snake[0].left < SPAWN_AREA_U_LIMIT and SPAWN_AREA_L_LIMIT < snake[0].top < SPAWN_AREA_U_LIMIT:
+    if (SPAWN_AREA_L_LIMIT < snake[0].left and direction == LEFT) or (snake[0].left < SPAWN_AREA_U_LIMIT and direction == RIGHT) or (SPAWN_AREA_L_LIMIT < snake[0].top and direction == UP) or (snake[0].top < SPAWN_AREA_U_LIMIT and direction == DOWN):
         snake = [snake[0].move(x_offset,y_offset),*snake]
         snake.pop()
     if snake[0].colliderect(food):
@@ -113,7 +129,11 @@ while True:
     #snake = snake.move(x_coordinate+1, y_coordinate)
     for wall_block in generate_upper_wall():
         pygame.draw.rect(screen,WALL_COLOR,wall_block)
+    for wall_block in generate_lower_wall():
+        pygame.draw.rect(screen,WALL_COLOR,wall_block)
     for wall_block in generate_left_wall():
+        pygame.draw.rect(screen,WALL_COLOR,wall_block)
+    for wall_block in generate_right_wall():
         pygame.draw.rect(screen,WALL_COLOR,wall_block)
     for pixel in snake:
         pygame.draw.rect(screen,"blue", pixel)
