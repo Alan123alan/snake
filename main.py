@@ -12,6 +12,21 @@ def get_spawn_food_point(spawn_area_lower_limit:int, spawn_area_upper_limit:int)
     y = 10*randint(spawn_area_lower_limit/10,spawn_area_upper_limit/10) 
     return (x,y)
 
+def generate_upper_wall():
+    upper_wall = []
+    TOP = 10
+    for x in range(10,481,10): 
+        upper_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    return upper_wall
+
+def generate_left_wall():
+    left_wall = []
+    LEFT = 10
+    for y in range(10,481,10): 
+        left_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    return left_wall 
+
+
 
 pygame.init()
 #game surface dimensions
@@ -19,6 +34,10 @@ SURFACE_WIDTH = 500
 SURFACE_HEIGHT = 500
 SURFACE_CENTER_HEIGHT = SURFACE_HEIGHT/2
 SURFACE_CENTER_WIDTH = SURFACE_WIDTH/2
+#walls pixels
+WALL_COLOR = "white" 
+WALL_BLOCK_HEIGHT = 10
+WALL_BLOCK_WIDTH = 10
 #food spawn area
 SPAWN_AREA_L_LIMIT = 20;
 SPAWN_AREA_U_LIMIT = 470;
@@ -92,7 +111,10 @@ while True:
     # ...
     #pygame.draw.rect(screen, "blue", snake)
     #snake = snake.move(x_coordinate+1, y_coordinate)
-
+    for wall_block in generate_upper_wall():
+        pygame.draw.rect(screen,WALL_COLOR,wall_block)
+    for wall_block in generate_left_wall():
+        pygame.draw.rect(screen,WALL_COLOR,wall_block)
     for pixel in snake:
         pygame.draw.rect(screen,"blue", pixel)
     pygame.draw.rect(screen, "red", food)
