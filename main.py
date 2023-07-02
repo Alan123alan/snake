@@ -13,36 +13,53 @@ def get_spawn_food_point(spawn_area_lower_limit:int, spawn_area_upper_limit:int)
     return (x,y)
 
 def generate_upper_wall():
-    upper_wall = []
-    TOP = 10
-    for x in range(10,481,10): 
-        upper_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-    return upper_wall
+    return [Rect(point,10,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT) for point in range(10,481,10)]
+    # upper_wall = []
+    # TOP = 10
+    # for x in range(10,481,10): 
+    #     upper_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    # return upper_wall
 
 
 def generate_lower_wall():
-    lower_wall = []
-    TOP = 480
-    for x in range(10,481,10): 
-        lower_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-    return lower_wall
+    return [Rect(point,480,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT) for point in range(10,481,10)]
+    # lower_wall = []
+    # TOP = 480
+    # for x in range(10,481,10): 
+    #     lower_wall.append(Rect(x,TOP,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    # return lower_wall
 
 
 def generate_left_wall():
-    left_wall = []
-    LEFT = 10
-    for y in range(10,481,10): 
-        left_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-    return left_wall 
+    return [Rect(10,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT) for point in range(10,481,10)]
+    # left_wall = []
+    # LEFT = 10
+    # for y in range(10,481,10): 
+    #     left_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    # return left_wall 
 
 def generate_right_wall():
-    right_wall = []
-    LEFT = 480
-    for y in range(10,481,10): 
-        right_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-    return right_wall 
+    return [Rect(480,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT) for point in range(10,481,10)]
+    # right_wall = []
+    # LEFT = 480
+    # for y in range(10,481,10): 
+    #     right_wall.append(Rect(LEFT,y,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    # return right_wall 
 
-
+def generate_walls():
+    corners = [10,480,10,480]
+    walls = []
+    for corner in corners:
+        left_wall = []
+        right_wall = []
+        upper_wall = []
+        lower_wall = []
+        for point in range(10,481,10): 
+            left_wall.append(Rect(10,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+            right_wall.append(Rect(480,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+            upper_wall.append(Rect(point,10,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+            lower_wall.append(Rect(point,480,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    return walls
 
 pygame.init()
 #game surface dimensions
