@@ -47,18 +47,11 @@ def generate_right_wall():
     # return right_wall 
 
 def generate_walls():
-    corners = [10,480,10,480]
-    walls = []
-    for corner in corners:
-        left_wall = []
-        right_wall = []
-        upper_wall = []
-        lower_wall = []
-        for point in range(10,481,10): 
-            left_wall.append(Rect(10,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-            right_wall.append(Rect(480,point,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-            upper_wall.append(Rect(point,10,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
-            lower_wall.append(Rect(point,480,WALL_BLOCK_WIDTH,WALL_BLOCK_HEIGHT))
+    left_wall = generate_left_wall()
+    right_wall = generate_right_wall()
+    upper_wall = generate_upper_wall()
+    lower_wall = generate_lower_wall()
+    walls = [left_wall, right_wall, upper_wall, lower_wall]
     return walls
 
 pygame.init()
@@ -144,14 +137,9 @@ while True:
     # ...
     #pygame.draw.rect(screen, "blue", snake)
     #snake = snake.move(x_coordinate+1, y_coordinate)
-    for wall_block in generate_upper_wall():
-        pygame.draw.rect(screen,WALL_COLOR,wall_block)
-    for wall_block in generate_lower_wall():
-        pygame.draw.rect(screen,WALL_COLOR,wall_block)
-    for wall_block in generate_left_wall():
-        pygame.draw.rect(screen,WALL_COLOR,wall_block)
-    for wall_block in generate_right_wall():
-        pygame.draw.rect(screen,WALL_COLOR,wall_block)
+    for wall in generate_walls():
+        for wall_block in wall:
+            pygame.draw.rect(screen,WALL_COLOR,wall_block)
     for pixel in snake:
         pygame.draw.rect(screen,"blue", pixel)
     pygame.draw.rect(screen, "red", food)
